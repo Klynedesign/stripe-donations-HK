@@ -25,10 +25,10 @@ app.post('/create-checkout-session', async (req, res) => {
       name: 'Monthly Donation',
     });
 
-    // Create a recurring price based on user input (in cents)
+    // Create a recurring price based on user input (in pence)
     const price = await stripe.prices.create({
-      unit_amount: parseInt(amount * 100), // Convert dollars to cents
-      currency: 'usd',
+      unit_amount: parseInt(amount * 100), // Convert pounds to pence
+      currency: 'gbp',
       recurring: { interval: 'month' },
       product: product.id,
     });
@@ -43,8 +43,8 @@ app.post('/create-checkout-session', async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: 'https://yourwebsite.com/success',
-      cancel_url: 'https://yourwebsite.com/cancel',
+      success_url: 'https://hkallah.org/success',
+      cancel_url: 'https://hkallah.org/',
     });
 
     res.json({ url: session.url });
