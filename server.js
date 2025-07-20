@@ -22,10 +22,10 @@ app.post('/create-checkout-session', async (req, res) => {
   try {
     // Create a product for the subscription
     const product = await stripe.products.create({
-      name: 'Monthly Donation',
+      name: 'Monthly Donation', // You can change this if you want
     });
 
-    // Create a recurring price based on user input (in pence)
+    // Create a recurring price in GBP
     const price = await stripe.prices.create({
       unit_amount: parseInt(amount * 100), // Convert pounds to pence
       currency: 'gbp',
@@ -33,7 +33,7 @@ app.post('/create-checkout-session', async (req, res) => {
       product: product.id,
     });
 
-    // Create checkout session
+    // Create the checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription',
@@ -43,8 +43,8 @@ app.post('/create-checkout-session', async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: 'https://hkallah.org/success',
-      cancel_url: 'https://hkallah.org/',
+      success_url: 'https://hkallah.org/thank-you/', // Replace with your real success page
+      cancel_url: 'https://hkallah.org/',   // Replace with your cancel page
     });
 
     res.json({ url: session.url });
